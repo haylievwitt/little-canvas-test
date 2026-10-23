@@ -163,9 +163,9 @@
     const img=ctx.getImageData(0,0,w,h), d=img.data, idx=(sy*w+sx)*4;
     const target=[d[idx],d[idx+1],d[idx+2],d[idx+3]], fill=hexRgba(colorInput.value);
     if(target.every((v,i)=>v===fill[i])) return;
-    // Include lightly anti-aliased edge pixels so a faint white fringe is less likely.
-    // Keep tolerance moderate so dark outlines still stop the fill.
-    const tolerance=40;
+    // Include more anti-aliased edge pixels to reduce the white fringe.
+    // A higher tolerance helps reach pale gray pixels along black outlines.
+    const tolerance=90;
     const matches = i => Math.abs(d[i]-target[0])<=tolerance && Math.abs(d[i+1]-target[1])<=tolerance && Math.abs(d[i+2]-target[2])<=tolerance && Math.abs(d[i+3]-target[3])<=tolerance;
     // Typed arrays avoid millions of tiny coordinate arrays on mobile devices.
     const total=w*h, stack=new Int32Array(total), seen=new Uint8Array(total);
